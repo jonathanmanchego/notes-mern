@@ -6,5 +6,6 @@ router.get('/', (req, res) => {
   res.send('Hello World!');
 });
 router.use('/notes', notesRoutes);
+router.use('/users', usersRoutes);
 
 export default router;
