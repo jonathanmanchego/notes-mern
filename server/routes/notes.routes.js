@@ -9,4 +9,20 @@ router.get("/", (req, res) => {
   const notesController = new NotesController(notesRepositorio);
   notesController.getNotes(req, res); 
 });
+router.post("/", (req, res) => {
+  const notesRepositorio = new NoteRepositorio();
+  const notesController = new NotesController(notesRepositorio);
+  notesController.createNote(req, res);
+});
+router.put("/:id", (req, res) => {
+  const notesRepositorio = new NoteRepositorio();
+  const notesController = new NotesController(notesRepositorio);
+  notesController.updateNote(req, res);
+}
+);
+router.delete("/:id", (req, res) => {
+  const notesRepositorio = new NoteRepositorio();
+  const notesController = new NotesController(notesRepositorio);
+  notesController.deleteNote(req, res);
+});
 export default router;

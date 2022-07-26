@@ -1,3 +1,5 @@
+import { pool } from "./index.database.js";
+
 export default class UserRepositorio {
   async getUsers() {
     const [rows] = await pool.execute("SELECT * FROM users");
@@ -11,7 +13,7 @@ export default class UserRepositorio {
 
   async createUser(user) {
     const [rows] = await pool.execute(
-      "INSERT INTO users (name, username, password, created_at, updated_at) VALUES (?, ?, ?)",
+      "INSERT INTO users (name, username, password, created_at, updated_at) VALUES (?, ?, ?, ?, ?)",
       [user.name, user.username, user.password, user.created_at, user.updated_at]
     );
     return rows.insertId;
@@ -20,7 +22,7 @@ export default class UserRepositorio {
   async updateUser(id, user) {
     const [rows] = await pool.execute(
       "UPDATE users SET name = ?, username = ?, updated_at = ? WHERE id = ?",
-      [user.name, user.username, user.password, user.updated_at, id]
+      [user.name, user.username, user.updated_at, id]
     );
     return rows.affectedRows;
   }
