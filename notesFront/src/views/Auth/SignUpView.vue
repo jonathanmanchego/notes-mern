@@ -1,13 +1,14 @@
 <script lang="ts">
 import IconArrow from "../../components/icons/IconArrow.vue";
 import { defineComponent } from "vue";
+import axios from "axios";
 
 export default defineComponent({
   // type inference enabled
   data() {
     return {
       name: "",
-      email: "",
+      username: "",
       password: "",
     };
   },
@@ -16,22 +17,28 @@ export default defineComponent({
   },
   mounted() {
     this.name; // type: string | undefined
-    this.email; // type: string | undefined
+    this.username; // type: string | undefined
     this.password; // type: string | undefined
   },
   methods: {
-    registerNewUser() {
-      console.log("Registering new user...", {
-        name: this.name,
-        email: this.email,
-        password: this.password,
-      });
+    async registerNewUser($event: Event) {
+      $event.preventDefault();
+      try {
+        await axios.post("http://localhost:3000/api/users", {
+          name: this.name,
+          username: this.username,
+          password: this.password,
+        });
+        // this.$toast.success("Usuario creado correctamente");
+      } catch (error) {
+        console.log(error);
+      }
     },
   },
 });
 </script>
 <template>
-  <form class="sign-up" action="#">
+  <form @submit="registerNewUser" class="sign-up">
     <div class="form-group">
       <input
         type="text"
@@ -42,10 +49,10 @@ export default defineComponent({
     </div>
     <div class="form-group">
       <input
-        type="email"
+        type="text"
         class="form-control"
-        v-model="email"
-        placeholder="Correo"
+        v-model="username"
+        placeholder="Usuario"
       />
     </div>
     <div class="form-group">
@@ -57,7 +64,7 @@ export default defineComponent({
       />
     </div>
     <div class="button-section">
-      <button type="button" @click="registerNewUser" class="btn-submit">
+      <button type="submit" class="btn-submit">
         <i>
           <iconArrow />
         </i>
@@ -107,7 +114,7 @@ export default defineComponent({
   background: #df663d;
   border: none;
   border-radius: 50%;
-  padding: 0.5rem 1rem;
+  padding: 0.5rem;
   color: #fff;
   font-size: 1.2rem;
   cursor: pointer;

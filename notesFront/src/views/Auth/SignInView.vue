@@ -1,18 +1,55 @@
-<script setup lang="ts">
+<script lang="ts">
 import IconArrow from "../../components/icons/IconArrow.vue";
+import axios from "axios";
+import { defineComponent } from "vue";
+
+export default defineComponent({
+  // type inference enabled
+  data() {
+    return {
+      username: "",
+      password: "",
+    };
+  },
+  components: {
+    IconArrow,
+  },
+  mounted() {
+    this.username; // type: string | undefined
+    this.password; // type: string | undefined
+  },
+  methods: {
+    loginUser($event: Event) {
+      // axios.post("/api/auth/login", {
+      //   username: this.username,
+      //   password: this.password,
+      // });
+    },
+  },
+});
 </script>
 <template>
-  <form class="sign-in">
+  <form @submit="loginUser" class="sign-in">
     <div class="form-group">
-      <input type="email" class="form-control" placeholder="Correo" />
+      <input
+        type="text"
+        v-model="username"
+        class="form-control"
+        placeholder="Usuario"
+      />
     </div>
     <div class="form-group">
-      <input type="password" class="form-control" placeholder="Contraseña" />
+      <input
+        type="password"
+        v-model="password"
+        class="form-control"
+        placeholder="Contraseña"
+      />
     </div>
     <div class="button-section">
       <button type="submit" class="btn-submit">
         <i>
-          <IconArrow />
+          <iconArrow />
         </i>
       </button>
     </div>
@@ -56,7 +93,7 @@ import IconArrow from "../../components/icons/IconArrow.vue";
   background: #df663d;
   border: none;
   border-radius: 50%;
-  padding: 0.5rem 1rem;
+  padding: 0.5rem;
   color: #fff;
   font-size: 1.2rem;
   cursor: pointer;
